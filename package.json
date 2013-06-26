@@ -2,8 +2,10 @@
   "name": "CVEC",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x"
-  },
+    "express": "2.5.x",
+    "nodemailer": "0.4.4",
+    "mongodb": "1.1.x"
+      },
   "engines": {
     "node": "0.8.x",
     "npm": "1.1.x"
