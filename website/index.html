@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" type="text/css" href="style.css">
+<html>
+<head><title>CVEC Prototype</title></head>
+
+<body>
+
+<h1>Send Alert</h1>
+Uses the same POST that will be used by Adhere
+<form action="/alert", method="post">
+    <br/>
+    <label>Patient ID:</label>
+    <select name="patient_id">
+    <option value="radler">radler</option>
+    <option value="mhartig">mhartig</option>
+    </select>    
+        
+    <br/>
+    <label>Bottle ID:</label>
+    <select name="bottle_id">
+    <option value="38495">38495 (radler->jwilson)</option>
+    <option value="83343">83343 (radler->acameron)</option>
+    <option value="13847">13847 (mhartig->eforeman)</option>
+    <option value="65737">65737 (mhartig->lcuddy)</option>
+    </select>    
+        
+    <br/>
+    <label>Reason code (just text):</label>
+    <input type="text" name="reason_code"/>
+    
+    <input type="submit" value="Generate Alert"/>
+</form>
+<br/>
+
+<hr>
+<h1>Send mail - plain</h1>
+<form action="/sendmail", method="post">
+    <br/>
+    <label>To email:</label>
+    <input type="text" name="toemail"/>
+    
+    <br/>
+    <label>Subject:</label>
+    <input type="text" name="subject"/>
+    
+    <input type="submit" value="Send"/>
+</form>
+<br/>
+
+<hr>
+<form action="/resetdb", method="post">
+    <input type="submit" value="resetdb"/>
+</form>
+
+<br/>
+
+<a href="/getdoctors">Get Doctors</a> 
+
+</body>
+</html>
