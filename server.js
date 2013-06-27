@@ -125,7 +125,13 @@ var GetDoctor = function(patient_id, bottle_id, cb) {
         patient.medications.forEach(function(item, index) {
            if (item.bottle_id == bottle_id) {
                 console.log("Matches doctor:" + item.doctor_id);
-                return cb(null, item.doctor_id);
+                server.doctors.findOne({"doctor_id":item.doctor_id}, function(err, doctor) {
+                    if (doctor) {
+                        return cb(null, doctor, patient)
+                    } else {
+                        console.log('no doctor');
+                    }
+                });        
             }
         });
     });
@@ -135,21 +141,33 @@ server.post('/alert', function (req, res) {
     console.log('/alert');
     console.log(req.body);
 
-    GetDoctor(req.body.patient_id,req.body.bottle_id, function(err, doctor_id) {
+    GetDoctor(req.body.patient_id,req.body.bottle_id, function(err, doctor, patient) {
         if (err) return;
-        if (!doctor_id) {console.log("doc not found"); return;}
+        if (!doctor) {console.log("doctor not found"); return;}
+
+        var mailText = "Dr "+ doctor.lastname + "," + "<br/><br/> please call " + patient.firstname + " " + patient.lastname;
         
-        server.doctors.findOne({"doctor_id":doctor_id}, function(err, doc) {
-            if (doc) {
-                console.log(doc.firstname + " " + doc.lastname + " email:"+ doc.email);
+        var to_email = req.body.to_email;
+        if (!to_email) to_email = doctor.email;
+        var mailOptions = {
+            from: "CVEC Alert <cvecproto@gmail.com>", // from address
+            to: to_email, // list of receivers, separate with commas
+            subject: "Alert: " + req.body.reason_code, // Subject line
+            text: "plaintext version", // plaintext body
+            html: mailText // html body
+        };
+    
+        // send mail with defined transport object
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
             } else {
-                console.log('no doc');
+                console.log("Message sent: " + response.message);
             }
-        });        
+        });
     });
 
-
-//  reason_code: 'gagsagsag' }
+    //  reason_code: 'gagsagsag' }
     res.redirect("/");
 });
 

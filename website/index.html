@@ -2,8 +2,11 @@
 
 <link rel="stylesheet" type="text/css" href="style.css">
 <html>
-<head><title>CVEC Prototype</title></head>
-
+<head>
+<title>CVEC Prototype</title></head>
+<style>
+body {font-family: arial}
+</style>
 <body>
 
 <h1>Send Alert</h1>
@@ -28,7 +31,12 @@ Uses the same POST that will be used by Adhere
     <br/>
     <label>Reason code (just text):</label>
     <input type="text" name="reason_code"/>
+
+    <br/>
+    <label>To email (override database dr. email):</label>
+    <input type="text" name="to_email" value="twesselman@gmail.com">
     
+    <br/>
     <input type="submit" value="Generate Alert"/>
 </form>
 <br/>
